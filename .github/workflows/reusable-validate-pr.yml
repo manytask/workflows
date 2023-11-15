@@ -1,0 +1,24 @@
+name: "Validate PR"
+
+on:
+  workflow_call:
+
+
+
+jobs:
+  validate_pr_title:
+    name: Check PR title uses Conventional Commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  validate_pr_labels:
+    name: Check Conventional Commits labels
+    runs-on: ubuntu-latest
+    steps:
+      - uses: danielchabr/pr-labels-checker@v3.3
+        with:
+          hasSome: 'breaking,feature,fix,chore,test,ci,enhancement,refactor,performance,style,documentation,dependencies'
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
