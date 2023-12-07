@@ -32,8 +32,16 @@ on:
         type: string
       push:
         required: false
-        default: true
+        default: false
         type: boolean
+      artifact:
+        required: false
+        default: false
+        type: boolean
+      artifact_name:
+        required: false
+        default: 'image.tar'
+        type: string
 
     secrets:
       registry_username:
@@ -70,9 +78,18 @@ jobs:
         file: ${{ inputs.dockerfile }}
         target: ${{ inputs.target }}
         push: ${{ inputs.push }}
+        # https://docs.docker.com/build/ci/github-actions/share-image-jobs/
+        outputs: type=docker,dest=/tmp/${{ inputs.artifact_name }}
         tags: ${{ inputs.tags }}
         labels: ${{ inputs.labels }}
         platforms: ${{ inputs.platforms }}
         # https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md#cache-backend-api
         cache-from: type=gha
         cache-to: type=gha,mode=max
+
+    - name: Upload artifact
+      if: ${{ inputs.artifact }}
+      uses: actions/upload-artifact@v3
+      with:
+          name: ${{ inputs.artifact_name }}
+          path: /tmp/${{ inputs.artifact_name }}
