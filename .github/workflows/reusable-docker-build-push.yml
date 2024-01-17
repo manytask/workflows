@@ -94,7 +94,7 @@ jobs:
         file: ${{ inputs.dockerfile }}
         target: ${{ inputs.target }}
         # https://docs.docker.com/build/ci/github-actions/share-image-jobs/
-        outputs: type=docker,dest=/tmp/${{ inputs.artifact_name }}
+        outputs: type=dest=/tmp/${{ inputs.artifact_name }}
         tags: ${{ inputs.tags }}
         labels: ${{ inputs.labels }}
         platforms: ${{ inputs.platforms }}
