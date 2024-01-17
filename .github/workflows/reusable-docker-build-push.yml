@@ -87,7 +87,7 @@ jobs:
         cache-to: type=gha,mode=max
 
     - name: Build and save Docker image
-      if: ${{ not inputs.push }}
+      if: ${{ !inputs.push }}
       uses: docker/build-push-action@v5
       with:
         context: ${{ inputs.context }}
